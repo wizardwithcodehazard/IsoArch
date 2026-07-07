@@ -27,7 +27,7 @@ interface MTOData {
     length_m?: number
     confidence?: number
     remarks?: string
-  }>
+    bounding_box?: number[]
   summary: {
     total_pipe_length_m: number
     fittings: number
@@ -141,8 +141,8 @@ export default function Home() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
                   {[
                     { state: geminiKey1, setState: setGeminiKey1, placeholder: "Gemini API Key 1", color: "#4285f4" },
-                    { state: geminiKey2, setState: setGeminiKey2, placeholder: "Gemini API Key 2 (Failover)", color: "#34a853" },
-                    { state: groqKey, setState: setGroqKey, placeholder: "Groq API Key (Llama-4)", color: "#f56038" }
+                    { state: geminiKey2, setState: setGeminiKey2, placeholder: "Gemini API Key 2 (Round-Robin Slot 2)", color: "#34a853" },
+                    { state: groqKey, setState: setGroqKey, placeholder: "Groq API Key (Llama-4 Judge)", color: "#f56038" }
                   ].map((input, idx) => (
                     <div key={idx} style={{ position: 'relative' }}>
                       <input 

@@ -201,7 +201,8 @@ async def validate_with_groq(image_bytes: bytes, json_a: Dict, json_b: Dict, cus
         
     except Exception as e:
         print(f"Error in Groq validation: {e}")
-        return merged_json
+        # Fall back to whichever model returned more data
+        return json_a if len(json_a.get("items", [])) >= len(json_b.get("items", [])) else json_b
 
 
 async def run_extraction_pipeline(file_bytes: bytes, gemini_keys: List[str] = None, groq_key: str = None) -> MTOResult:
