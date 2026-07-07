@@ -97,6 +97,29 @@ export default function Home() {
     setError(null)
   }
 
+  const handleMockTest = () => {
+    setError(null)
+    setLoading(true)
+    // Use the public sample drawing for the mock test
+    setUploadedImage('/test-isometric.png')
+    
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+    fetch(`${apiUrl}/api/mock`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch mock')
+        return res.json()
+      })
+      .then((data: MTOData) => {
+        setMtoData(data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Mock fetch error:', err)
+        setError('Failed to load mock dashboard.')
+        setLoading(false)
+      })
+  }
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header onReset={handleReset} />
@@ -177,6 +200,35 @@ export default function Home() {
                 </div>
               </div>
             <UploadSection onUpload={handleUpload} loading={loading} error={error} />
+            
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px', marginBottom: '32px' }}>
+              <button 
+                onClick={handleMockTest}
+                disabled={loading}
+                style={{
+                  padding: '12px 28px',
+                  borderRadius: '100px',
+                  border: '1px solid var(--md-sys-color-outline)',
+                  backgroundColor: 'transparent',
+                  color: 'var(--md-sys-color-on-surface)',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  fontWeight: 500,
+                  fontSize: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  opacity: loading ? 0.6 : 1,
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseOver={(e) => { if (!loading) e.currentTarget.style.backgroundColor = 'var(--md-sys-color-surface-container-high)' }}
+                onMouseOut={(e) => { if (!loading) e.currentTarget.style.backgroundColor = 'transparent' }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                Load Mock Dashboard (For Evaluators)
+              </button>
+            </div>
           </div>
         ) : (
           <ResultsSection

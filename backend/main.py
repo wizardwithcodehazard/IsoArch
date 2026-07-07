@@ -132,6 +132,11 @@ def get_mock_mto() -> dict:
 async def health_check():
     return {"status": "ok"}
 
+@app.get("/api/mock", response_model=MTOResult)
+async def mock_mto():
+    """Returns the mock data instantly for dashboard testing."""
+    return get_mock_mto()
+
 
 @app.post("/api/extract", response_model=MTOResult)
 async def extract_mto(
