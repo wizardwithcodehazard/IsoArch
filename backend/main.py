@@ -58,6 +58,62 @@ def get_mock_mto() -> dict:
                 "length_m": None,
                 "confidence": 0.88,
                 "remarks": "Mock fallback"
+            },
+            {
+                "item_no": 3,
+                "category": "FLANGE",
+                "description": "Flange, Weld Neck, Raised Face",
+                "size_nps": "6\"",
+                "schedule_rating": "CL150",
+                "material_spec": "ASTM A105",
+                "end_type": "BW",
+                "quantity": 2,
+                "unit": "EA",
+                "length_m": None,
+                "confidence": 0.95,
+                "remarks": "Mock fallback"
+            },
+            {
+                "item_no": 4,
+                "category": "VALVE",
+                "description": "Gate Valve, Bolted Bonnet, OS&Y",
+                "size_nps": "6\"",
+                "schedule_rating": "CL150",
+                "material_spec": "ASTM A216 WCB",
+                "end_type": "FLGD",
+                "quantity": 1,
+                "unit": "EA",
+                "length_m": None,
+                "confidence": 0.99,
+                "remarks": "Mock fallback"
+            },
+            {
+                "item_no": 5,
+                "category": "GASKET",
+                "description": "Spiral Wound Gasket, CG, SS316/Graphite",
+                "size_nps": "6\"",
+                "schedule_rating": "CL150",
+                "material_spec": "ASME B16.20",
+                "end_type": "-",
+                "quantity": 2,
+                "unit": "EA",
+                "length_m": None,
+                "confidence": 1.0,
+                "remarks": "Mock fallback"
+            },
+            {
+                "item_no": 6,
+                "category": "BOLT",
+                "description": "Stud Bolt with 2 Heavy Hex Nuts",
+                "size_nps": "3/4\"",
+                "schedule_rating": "-",
+                "material_spec": "ASTM A193 B7 / A194 2H",
+                "end_type": "-",
+                "quantity": 2,
+                "unit": "SET",
+                "length_m": None,
+                "confidence": 1.0,
+                "remarks": "Mock fallback"
             }
         ],
         "summary": {
