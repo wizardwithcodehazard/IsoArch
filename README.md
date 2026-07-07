@@ -30,14 +30,20 @@ graph TD
 
     %% Ensemble Execution
     subgraph "Parallel Vision Extraction"
-        Gemini35["Gemini 3.5 Flash <br> (Primary)"]
-        Gemini31["Gemini 3.1 Flash Lite <br> (Failover)"]
+        Gemini35["Gemini 3.5 Flash <br> (Ensemble Model A)"]
+        Gemini31["Gemini 3.1 Flash Lite <br> (Ensemble Model B)"]
     end
 
     %% Agentic Resolution
     subgraph "Semantic Validation Layer"
         Groq["Groq Llama-4-Scout <br> (Senior Judge)"]
         DomainRules["Domain Rules Engine <br> (ASME Physics)"]
+    end
+
+    %% Output Artifacts
+    subgraph "Data Outputs"
+        ExportXLSX[("Excel Export <br> (.xlsx)")]
+        ExportCSV[("CSV Export <br> (.csv)")]
     end
 
     %% Data Flow
@@ -48,13 +54,16 @@ graph TD
     CNN --> Gemini35
     CNN --> Gemini31
     
-    Gemini35 -- "Async JSON Extraction" --> Groq
-    Gemini31 -- "Async JSON Extraction" --> Groq
+    Gemini35 -- "Model A JSON" --> Groq
+    Gemini31 -- "Model B JSON" --> Groq
     CNN -- "Base64 Image Context" --> Groq
     
     Groq <--> DomainRules
     Groq -- "Semantically Merged JSON" --> PydanticValidator
     PydanticValidator -- "Strict MTOResult Object" --> UI
+    
+    UI --> ExportXLSX
+    UI --> ExportCSV
 ```
 
 ---
