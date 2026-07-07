@@ -1,0 +1,115 @@
+/* Material Web typescale utility classes (.md-typescale-*) */
+@import '@material/web/typography/md-typescale-styles.css';
+
+/*
+ * Material 3 color scheme for isoarch - Engineering-focused technical aesthetic
+ * Light: Clean white surfaces with steel blue accents
+ * Dark: Deep dark grays with bright accent highlights
+ */
+:root {
+  color-scheme: light;
+
+  --md-sys-color-primary: #0066cc;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #d0e4ff;
+  --md-sys-color-on-primary-container: #001959;
+  --md-sys-color-secondary: #555555;
+  --md-sys-color-on-secondary: #ffffff;
+  --md-sys-color-secondary-container: #e8e8e8;
+  --md-sys-color-on-secondary-container: #0d0d0d;
+  --md-sys-color-tertiary: #0099cc;
+  --md-sys-color-on-tertiary: #ffffff;
+  --md-sys-color-tertiary-container: #b3e5ff;
+  --md-sys-color-on-tertiary-container: #001f3f;
+  --md-sys-color-error: #cc3300;
+  --md-sys-color-on-error: #ffffff;
+  --md-sys-color-error-container: #ffddcc;
+  --md-sys-color-on-error-container: #330800;
+  --md-sys-color-background: #f5f7fa;
+  --md-sys-color-on-background: #0d1117;
+  --md-sys-color-surface: #ffffff;
+  --md-sys-color-on-surface: #0d1117;
+  --md-sys-color-surface-variant: #e0e4eb;
+  --md-sys-color-on-surface-variant: #464d56;
+  --md-sys-color-outline: #767e88;
+  --md-sys-color-outline-variant: #c9d0db;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #1a2332;
+  --md-sys-color-inverse-on-surface: #f0f5ff;
+  --md-sys-color-inverse-primary: #99ccff;
+  --md-sys-color-surface-dim: #dce0ea;
+  --md-sys-color-surface-bright: #ffffff;
+  --md-sys-color-surface-container-lowest: #f9fbff;
+  --md-sys-color-surface-container-low: #f0f4ff;
+  --md-sys-color-surface-container: #e9ecf5;
+  --md-sys-color-surface-container-high: #e3e7f0;
+  --md-sys-color-surface-container-highest: #dce0eb;
+
+  /* Typefaces: applied to every system and component token */
+  --md-ref-typeface-brand: var(--font-roboto), Roboto, system-ui, sans-serif;
+  --md-ref-typeface-plain: var(--font-roboto), Roboto, system-ui, sans-serif;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --md-sys-color-primary: #99ccff;
+  --md-sys-color-on-primary: #003d99;
+  --md-sys-color-primary-container: #0052cc;
+  --md-sys-color-on-primary-container: #d0e4ff;
+  --md-sys-color-secondary: #cccccc;
+  --md-sys-color-on-secondary: #1a1a1a;
+  --md-sys-color-secondary-container: #333333;
+  --md-sys-color-on-secondary-container: #e8e8e8;
+  --md-sys-color-tertiary: #66d9ff;
+  --md-sys-color-on-tertiary: #004466;
+  --md-sys-color-tertiary-container: #007399;
+  --md-sys-color-on-tertiary-container: #b3e5ff;
+  --md-sys-color-error: #ff6633;
+  --md-sys-color-on-error: #1a0a00;
+  --md-sys-color-error-container: #991100;
+  --md-sys-color-on-error-container: #ffddcc;
+  --md-sys-color-background: #0a0e14;
+  --md-sys-color-on-background: #e8ecf4;
+  --md-sys-color-surface: #101419;
+  --md-sys-color-on-surface: #e8ecf4;
+  --md-sys-color-surface-variant: #303844;
+  --md-sys-color-on-surface-variant: #bcc3cf;
+  --md-sys-color-outline: #8791a0;
+  --md-sys-color-outline-variant: #303844;
+  --md-sys-color-shadow: #000000;
+  --md-sys-color-scrim: #000000;
+  --md-sys-color-inverse-surface: #e8ecf4;
+  --md-sys-color-inverse-on-surface: #0f1419;
+  --md-sys-color-inverse-primary: #0052cc;
+  --md-sys-color-surface-dim: #0a0e14;
+  --md-sys-color-surface-bright: #30353e;
+  --md-sys-color-surface-container-lowest: #050809;
+  --md-sys-color-surface-container-low: #131820;
+  --md-sys-color-surface-container: #191f28;
+  --md-sys-color-surface-container-high: #242c36;
+  --md-sys-color-surface-container-highest: #2f3741;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-background);
+  font-family: var(--md-ref-typeface-plain);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Material Symbols icon font for <md-icon> */
+md-icon {
+  font-family: 'Material Symbols Outlined';
+}
