@@ -268,12 +268,3 @@ The assignment allows for either a synchronous single-call design or an asynchro
 ### Sample Test Drawings
 *   `frontend/public/test-isometric.png` — A sample public domain piping isometric diagram used during system validation to verify the core extraction logic.
 
-### Working App Screenshots
-The dashboard and processing states are documented below (images stored locally in the `/screenshots` directory):
-
-1.  **Bring Your Own Key (BYOK) Dashboard Home:**
-    ![Dashboard Interface](./screenshots/screenshot1.png)
-
-2.  **MTO Table Extraction Results & Interactive Grid:**
-    ![MTO Results Grid](./screenshots/screenshot2.png)
-
