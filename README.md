@@ -1,6 +1,6 @@
 # ArchPipeline — AI-Driven Piping Isometric MTO Extraction
 
-An end-to-end, production-grade AI pipeline for automatically extracting Material Take-Offs (MTO) from piping isometric drawings. Built as a technical assessment for PathNovo, the system is designed to address the fundamental challenge of deploying generative AI in a precision-engineering context: eliminating hallucinations and producing deterministic, ASME-compliant output.
+An end-to-end, production-grade AI pipeline for automatically extracting Material Take-Offs (MTO) from piping isometric drawings. The system is designed to address the fundamental challenge of deploying generative AI in a precision-engineering context: eliminating hallucinations and producing deterministic, ASME-compliant output.
 
 ---
 
@@ -126,6 +126,16 @@ npm run dev
 ```
 Open `http://localhost:3000` in your browser.
 
+**3. Running Backend Tests**
+Activate your virtual environment and execute the test suite:
+```bash
+cd backend
+# Make sure pytest is installed:
+pip install pytest
+# Run tests:
+pytest test_main.py
+```
+
 ---
 
 ## 3. Environment Variables
@@ -250,3 +260,20 @@ The assignment allows for either a synchronous single-call design or an asynchro
 2.  **Graph Neural Networks (GNN):** Parsing the vectorized drawing as a topological node-edge graph (where nodes are fittings and edges are pipe segments) to perform mathematically exact path routing calculations.
 3.  **Dedicated Object Detection (YOLOv8):** Implementing a two-stage detection pipeline where a customized YOLOv8 model detects symbols (valves, flanges, welds), and crops them for targeted OCR extraction.
 4.  **Interactive WebGL Rendering:** Feeding the vectorized diagram structure into a WebGL engine (such as Three.js) to build an interactive, editable 3D representation of the piping system.
+
+---
+
+## 8. Sample Isometric Drawings & App Screenshots
+
+### Sample Test Drawings
+*   `frontend/public/test-isometric.png` — A sample public domain piping isometric diagram used during system validation to verify the core extraction logic.
+
+### Working App Screenshots
+The dashboard and processing states are documented below (images stored locally in the `/screenshots` directory):
+
+1.  **Bring Your Own Key (BYOK) Dashboard Home:**
+    ![Dashboard Interface](./screenshots/screenshot1.png)
+
+2.  **MTO Table Extraction Results & Interactive Grid:**
+    ![MTO Results Grid](./screenshots/screenshot2.png)
+
