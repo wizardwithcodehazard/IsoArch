@@ -10,42 +10,34 @@ The architecture utilizes a multi-model ensemble ("Agentic Judge Pattern") combi
 
 ```mermaid
 graph TD
-    %% Styling
-    classDef client fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
-    classDef api fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
-    classDef cv fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    classDef ai fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    classDef judge fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef output fill:#eceff1,stroke:#455a64,stroke-width:2px;
-
     %% Frontend Boundary
     subgraph "Client Layer (Next.js Material-3)"
-        UI["User Interface <br> (BYOK Config)"]:::client
-        Upload["File Upload <br> (PDF, PNG, JPG)"]:::client
+        UI["User Interface <br> (BYOK Config)"]
+        Upload["File Upload <br> (PDF, PNG, JPG)"]
     end
 
     %% Backend Boundary
     subgraph "API Gateway (FastAPI)"
-        Router["POST /api/extract <br> (FormData)"]:::api
-        PydanticValidator["Pydantic Schema <br> Validation"]:::api
+        Router["POST /api/extract <br> (FormData)"]
+        PydanticValidator["Pydantic Schema <br> Validation"]
     end
 
     %% Computer Vision Pre-Processing
     subgraph "Deterministic Vision Layer"
-        PDF["PyMuPDF (fitz) <br> Rasterization Engine"]:::cv
-        CNN["Pillow CNN Kernels <br> (Sharpness & Contrast)"]:::cv
+        PDF["PyMuPDF (fitz) <br> Rasterization Engine"]
+        CNN["Pillow CNN Kernels <br> (Sharpness & Contrast)"]
     end
 
     %% Ensemble Execution
     subgraph "Parallel Vision Extraction"
-        Gemini35["Gemini 3.5 Flash <br> (Primary)"]:::ai
-        Gemini31["Gemini 3.1 Flash Lite <br> (Failover)"]:::ai
+        Gemini35["Gemini 3.5 Flash <br> (Primary)"]
+        Gemini31["Gemini 3.1 Flash Lite <br> (Failover)"]
     end
 
     %% Agentic Resolution
     subgraph "Semantic Validation Layer"
-        Groq["Groq Llama-4-Scout <br> (Senior Judge)"]:::judge
-        DomainRules["Domain Rules Engine <br> (ASME Physics)"]:::judge
+        Groq["Groq Llama-4-Scout <br> (Senior Judge)"]
+        DomainRules["Domain Rules Engine <br> (ASME Physics)"]
     end
 
     %% Data Flow
