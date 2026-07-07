@@ -4,32 +4,65 @@ ArchPipeline is a production-grade, end-to-end AI architecture designed to extra
 
 ---
 
-## 🏗️ The Agentic Judge Architecture
+## 🏗️ System Architecture
 
 The architecture utilizes a multi-model ensemble ("Agentic Judge Pattern") combined with deterministic Computer Vision layers to ensure ISO-standard piping physics and absolute truthfulness.
 
 ```mermaid
 graph TD
-    A["User Upload <br>(PNG, JPG, PDF)"] --> B["PyMuPDF <br> Rasterization"]
-    B --> C["Pillow CNN <br> Image Sharpening"]
-    
+    %% Styling
+    classDef client fill:#e3f2fd,stroke:#1565c0,stroke-width:2px;
+    classDef api fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px;
+    classDef cv fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    classDef ai fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef judge fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    classDef output fill:#eceff1,stroke:#455a64,stroke-width:2px;
+
+    %% Frontend Boundary
+    subgraph "Client Layer (Next.js Material-3)"
+        UI["User Interface <br> (BYOK Config)"]:::client
+        Upload["File Upload <br> (PDF, PNG, JPG)"]:::client
+    end
+
+    %% Backend Boundary
+    subgraph "API Gateway (FastAPI)"
+        Router["POST /api/extract <br> (FormData)"]:::api
+        PydanticValidator["Pydantic Schema <br> Validation"]:::api
+    end
+
+    %% Computer Vision Pre-Processing
+    subgraph "Deterministic Vision Layer"
+        PDF["PyMuPDF (fitz) <br> Rasterization Engine"]:::cv
+        CNN["Pillow CNN Kernels <br> (Sharpness & Contrast)"]:::cv
+    end
+
+    %% Ensemble Execution
     subgraph "Parallel Vision Extraction"
-        C --> D["Gemini 3.5 <br> Flash"]
-        C --> E["Gemini 3.1 <br> Flash Lite"]
+        Gemini35["Gemini 3.5 Flash <br> (Primary)"]:::ai
+        Gemini31["Gemini 3.1 Flash Lite <br> (Failover)"]:::ai
     end
-    
-    D --> F("Model A JSON")
-    E --> G("Model B JSON")
-    
-    subgraph "Agentic Judge Resolution"
-        F --> H["Groq Llama-4-Scout <br> Semantic Merge"]
-        G --> H
-        C --> H
+
+    %% Agentic Resolution
+    subgraph "Semantic Validation Layer"
+        Groq["Groq Llama-4-Scout <br> (Senior Judge)"]:::judge
+        DomainRules["Domain Rules Engine <br> (ASME Physics)"]:::judge
     end
+
+    %% Data Flow
+    UI --> Upload
+    Upload -- "Multipart/Form-Data" --> Router
+    Router --> PDF
+    PDF -- "JPEG Bytes" --> CNN
+    CNN --> Gemini35
+    CNN --> Gemini31
     
-    H --> I["Pydantic <br> Strict Validation"]
-    I --> J["FastAPI Payload"]
-    J --> K["Next.js Material-3 <br> Dashboard"]
+    Gemini35 -- "Async JSON Extraction" --> Groq
+    Gemini31 -- "Async JSON Extraction" --> Groq
+    CNN -- "Base64 Image Context" --> Groq
+    
+    Groq <--> DomainRules
+    Groq -- "Semantically Merged JSON" --> PydanticValidator
+    PydanticValidator -- "Strict MTOResult Object" --> UI
 ```
 
 ---
@@ -75,27 +108,29 @@ If this were deployed at scale, Architecture V2 would involve:
 
 ---
 
-## 💻 Deployment Instructions
+## 💻 Local Setup & Execution
 
 ### Option A: Local Docker (Recommended)
-1. Run `docker-compose up --build`
-2. Open `http://localhost:3000`
+You can run the entire stack (Frontend + Backend) effortlessly using Docker Compose:
+```bash
+docker-compose up --build
+```
+*   The dashboard will be available at `http://localhost:3000`
+*   The API will run at `http://localhost:8000`
 
-### Option B: Cloud Deployment (Vercel & Render)
+### Option B: Manual Run
+If you prefer running the servers natively without Docker:
 
-**1. Deploy Backend to Render.com:**
-*   Create a new Web Service and link this repository.
-*   Set Root Directory to `backend/`.
-*   Render will automatically detect the `Dockerfile`.
-*   Set Environment Variables (`GEMINI_API_KEYS`, `GROQ_API_KEY`).
-*   Copy your deployed backend URL.
+**1. Start the Backend API**
+```bash
+cd backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-**2. Deploy Frontend to Vercel:**
-*   Link this repository in Vercel.
-*   Set Root Directory to `frontend/`.
-*   Set Environment Variable `NEXT_PUBLIC_API_URL` to your Render backend URL.
-*   Deploy!
-
-### Option C: Manual Run
-*   **Backend:** `cd backend && pip install -r requirements.txt && uvicorn main:app --reload`
-*   **Frontend:** `cd frontend && npm install && npm run dev`
+**2. Start the Frontend Dashboard**
+```bash
+cd frontend
+npm install
+npm run dev
+```
