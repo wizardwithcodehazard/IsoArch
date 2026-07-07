@@ -1,6 +1,6 @@
 # ArchPipeline — AI-Driven Piping Isometric MTO Extraction
 
-An end-to-end, production-grade AI pipeline for automatically extracting Material Take-Offs (MTO) from piping isometric drawings. Built as a technical assessment for PathNovo, the system is designed to address the fundamental challenge of deploying generative AI in a precision-engineering context: eliminating hallucinations and producing deterministic, ASME-compliant output.
+An end-to-end, production-grade AI pipeline for automatically extracting Material Take-Offs (MTO) from piping isometric drawings. The system is designed to address the fundamental challenge of deploying generative AI in a precision-engineering context: eliminating hallucinations and producing deterministic, ASME-compliant output.
 
 ---
 
