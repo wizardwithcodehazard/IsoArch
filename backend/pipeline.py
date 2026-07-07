@@ -93,8 +93,8 @@ async def extract_gemini(image_bytes: bytes, model_name: str, thinking_level: st
     
     RULES:
     1. BOM TABLE PRIORITY: If there is a Bill of Materials (BOM) or Material List printed in the corner of the drawing, you MUST read the quantities, sizes, and descriptions from that table FIRST. Do not guess dimensions from the sketch if a table exists.
-    2. ZERO-GUESSING FOR SKETCHES: If the image is just a sketch or lacks any recognizable piping symbols, return an empty "items" array.
-    3. EXTRACT CLEAR SYMBOLS: If it IS a valid isometric, extract every pipe, fitting, flange, and valve.
+    2. HAND-DRAWN SKETCHES: If the image is a hand-drawn sketch (like on grid paper), you MUST still carefully extract all visible piping components (pipes, valves, reducers, flanges, elbows) based on the drawn symbols and handwritten annotations. Do NOT return an empty array just because it is hand-drawn.
+    3. EXTRACT CLEAR SYMBOLS: Extract every pipe, fitting, flange, and valve you can confidently identify. For pipes, estimate length_m if dimensions are written.
     4. WELD COUNTING: Explicitly look for and count Field Welds (FW) and add them to the summary tally.
     5. BONUS: For every detected item, try to provide its bounding_box as [ymin, xmin, ymax, xmax] using normalized coordinates (0.0 to 1.0).
     6. Return strictly valid JSON matching this schema structure:
@@ -170,7 +170,7 @@ async def validate_with_groq(image_bytes: bytes, json_a: Dict, json_b: Dict, cus
     4. BOUNDING BOXES FOR CONFLICTS: If you manually verify an item, generate a bounding_box [ymin, xmin, ymax, xmax]. Preserve existing ones.
     5. DOMAIN PHYSICS: If you finalized the flanges, ensure Flanged joints have EXACTLY 1 Gasket and 1 Bolt Set.
     6. WELD COUNTING: Ensure Field Welds (FW) are accurately tallied in the summary if present.
-    7. ZERO-GUESSING: If both models returned empty item arrays, return an empty array. Do not invent parts.
+    7. HAND-DRAWN SKETCHES: If the image is a hand-drawn sketch without a BOM table, you must still validate and retain the components extracted by the junior models. Do not discard valid items just because it is a hand-drawn sketch.
     8. MODEL FAILURE: If one of the model outputs is empty or has no items (e.g. due to rate limits or API failure), you MUST visually verify all items from the other active model against the image. Generate normalized bounding_boxes [ymin, xmin, ymax, xmax] for these verified items and assign confidence scores between 0.70 and 0.85 (do not output 0.99 for them, as they were only extracted by a single model).
     
     Return the final merged JSON matching the schema.
