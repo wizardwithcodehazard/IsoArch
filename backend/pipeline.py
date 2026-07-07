@@ -171,6 +171,7 @@ async def validate_with_groq(image_bytes: bytes, json_a: Dict, json_b: Dict, cus
     5. DOMAIN PHYSICS: If you finalized the flanges, ensure Flanged joints have EXACTLY 1 Gasket and 1 Bolt Set.
     6. WELD COUNTING: Ensure Field Welds (FW) are accurately tallied in the summary if present.
     7. ZERO-GUESSING: If both models returned empty item arrays, return an empty array. Do not invent parts.
+    8. MODEL FAILURE: If one of the model outputs is empty or has no items (e.g. due to rate limits or API failure), you MUST visually verify all items from the other active model against the image. Generate normalized bounding_boxes [ymin, xmin, ymax, xmax] for these verified items and assign confidence scores between 0.70 and 0.85 (do not output 0.99 for them, as they were only extracted by a single model).
     
     Return the final merged JSON matching the schema.
     """
@@ -201,8 +202,10 @@ async def validate_with_groq(image_bytes: bytes, json_a: Dict, json_b: Dict, cus
         
     except Exception as e:
         print(f"Error in Groq validation: {e}")
-        # Fall back to whichever model returned more data
-        return json_a if len(json_a.get("items", [])) >= len(json_b.get("items", [])) else json_b
+        # Fall back to whichever model returned more data defensively
+        items_a = json_a.get("items", []) if isinstance(json_a, dict) else []
+        items_b = json_b.get("items", []) if isinstance(json_b, dict) else []
+        return json_a if len(items_a) >= len(items_b) else json_b
 
 
 async def run_extraction_pipeline(file_bytes: bytes, gemini_keys: List[str] = None, groq_key: str = None) -> MTOResult:
@@ -239,7 +242,7 @@ async def run_extraction_pipeline(file_bytes: bytes, gemini_keys: List[str] = No
     
     # 3. Semantic Merge & Domain Validation (Judge Pattern via Groq)
     print("Running Agentic Semantic Merge and Validation via Groq Llama-4-scout...")
-    final_json = await validate_with_groq(clean_bytes, json_35 or json_31, json_31 or json_35, groq_key)
+    final_json = await validate_with_groq(clean_bytes, json_35 or {}, json_31 or {}, groq_key)
     
     # Inject the base64 processed image back so frontend doesn't struggle with PDFs
     final_json["processed_image_base64"] = f"data:image/jpeg;base64,{base64.b64encode(clean_bytes).decode('utf-8')}"

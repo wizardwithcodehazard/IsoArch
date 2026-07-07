@@ -28,6 +28,7 @@ interface MTOData {
     confidence?: number
     remarks?: string
     bounding_box?: number[]
+  }>
   summary: {
     total_pipe_length_m: number
     fittings: number
